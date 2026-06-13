@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>The Cosmic Terminal of Mom</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==========================================================================
+       01. ARCHITECTURAL VARIABLE TOKENS
+       ========================================================================== */
+    :root {
+      /* DARK MODE: Regal Maroon & Glowing Cosmic Butterflies */
+      --bg-universe: #0d0204;
+      --bg-glass: rgba(28, 5, 10, 0.75);
+      --bg-elevated: rgba(50, 10, 18, 0.9);
+      --border-glass: rgba(139, 38, 57, 0.35);
+      --border-active: rgba(212, 163, 115, 0.7);
+      --text-primary: #fcf8f9;
+      --text-secondary: #d4a5b1;
+      --accent-glow: #8b2639;
+      --accent-vector: #e63946;
+      --theme-indicator: "Maroon Butterfly Matrix";
+      
+      --font-cinzel: 'Cinzel', Georgia, serif;
+      --font-inter: 'Inter', system-ui, sans-serif;
+    }
+
+    [data-theme="light"] {
+      /* LIGHT MODE: Royal Ink Blue, Crimson Safety & Floating Hearts */
+      --bg-universe: #0b132b;
+      --bg-glass: rgba(28, 37, 65, 0.8);
+      --bg-elevated: rgba(58, 80, 107, 0.95);
+      --border-glass: rgba(91, 192, 190, 0.3);
+      --border-active: rgba(230, 57, 70, 0.8);
+      --text-primary: #ffffff;
+      --text-secondary: #5bc0be;
+      --accent-glow: #1c2541;
+      --accent-vector: #e63946;
+      --theme-indicator: "Ink Blue Eye Shield (Heart Core)";
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+      background-color: var(--bg-universe);
+      color: var(--text-primary);
+      font-family: var(--font-inter);
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    /* Hardware Custom Vector Cursor Configuration */
+    body {
+      cursor: none !important;
+    }
+    a, button, [role="button"] {
+      cursor: none !important;
+    }
+
+    /* Ambient Background Theme Elements Layer */
+    #ambient-background-matrix {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .ambient-particle {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.35;
+      animation: floatUpward 8s infinite linear;
+    }
+
+    @keyframes floatUpward {
+      0% { transform: translateY(105vh) rotate(0deg) scale(0.8); opacity: 0; }
+      10% { opacity: 0.4; }
+      90% { opacity: 0.4; }
+      100% { transform: translateY(-10vh) rotate(360deg) scale(1.2); opacity: 0; }
+    }
+
+    #scrolling-viewport-matrix {
+      position: relative;
+      z-index: 5;
+      width: 100%;
+    }
+
+    /* ==========================================================================
+       02. LIVE INTERACTIVE CURSOR SYSTEMS
+       ========================================================================== */
+    #live-heart-pointer-node {
+      position: fixed;
+      width: 28px;
+      height: 28px;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      will-change: transform;
+      filter: drop-shadow(0 0 8px var(--accent-vector));
+    }
+
+    #live-heart-pointer-node svg {
+      width: 100%;
+      height: 100%;
+      fill: var(--accent-vector);
+    }
+
+    .trail-drop-node {
+      position: fixed;
+      width: 12px;
+      height: 12px;
+      pointer-events: none;
+      z-index: 99998;
+      transform: translate(-50%, -50%);
+      will-change: transform, opacity;
+    }
+    .trail-drop-node svg {
+      width: 100%;
+      height: 100%;
+      fill: var(--text-secondary);
+    }
+
+    /* ==========================================================================
+       03. GLOBAL NAVIGATION TOASTER SYSTEM
+       ========================================================================== */
+    #global-toaster {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(0);
+      z-index: 100000;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-active);
+      padding: 14px 24px;
+      border-radius: 40px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-align: center;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      width: 90%;
+      max-width: 480px;
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+    }
+    .toast-hidden {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-100px) scale(0.9) !important;
+    }
+
+    /* EYE PROTECTION CALIBRATION SHIELD BUTTON */
+    #shield-theme-calibrator {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 99990;
+      background: var(--bg-glass);
+      border: 1px solid var(--border-glass);
+      padding: 12px 20px;
+      border-radius: 30px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      transition: border-color 0.3s;
+    }
+    #shield-theme-calibrator span {
+      font-size: 0.7rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+    #shield-theme-calibrator svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--text-primary);
+      fill: none;
+    }
+
+    /* ==========================================================================
+       04. QUANTUM WING ESCAPING BUTTERFLIES
+       ========================================================================== */
+    .quantum-butterfly-node {
+      position: fixed;
+      width: 44px;
+      height: 44px;
+      z-index: 990;
+      will-change: left, top, transform;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .butterfly-vector-mesh {
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 0 6px var(--text-secondary));
+    }
+    .butterfly-vector-mesh .wing-left {
+      transform-origin: 22px 22px;
+      animation: rapidFlapLeft 0.12s infinite alternate ease-in-out;
+    }
+    .butterfly-vector-mesh .wing-right {
+      transform-origin: 22px 22px;
+      animation: rapidFlapRight 0.12s infinite alternate ease-in-out;
+    }
+    @keyframes rapidFlapLeft {
+      0% { transform: scaleX(1); }
+      100% { transform: scaleX(0.15); }
+    }
+    @keyframes rapidFlapRight {
+      0% { transform: scaleX(1); }
+      100% { transform: scaleX(0.15); }
+    }
+
+    /* ==========================================================================
+       05. CONTAINER SCENE DECK SECTIONS
+       ========================================================================== */
+    .hero-chassis-viewport {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+      text-align: center;
+    }
+    .fluid-layout-frame {
+      max-width: 800px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+    .status-pill-capsule {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-glass);
+      padding: 8px 16px;
+      border-radius: 30px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .status-indicator-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--text-secondary);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--text-secondary);
+    }
+    .status-pill-capsule p {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .main-cinematic-title {
+      font-family: var(--font-cinzel);
+      font-size: clamp(2.2rem, 5.5vw, 4rem);
+      line-height: 1.2;
+    }
+    .gradient-text-span {
+      background: linear-gradient(to right, var(--text-primary), var(--text-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .main-cinematic-desc {
+      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+      line-height: 1.6;
+      color: var(--text-secondary);
+      max-width: 580px;
+      font-weight: 300;
+    }
+
+    /* GRID STATS COUNTER MODULES */
+    .metrics-sync-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      width: 100%;
+      margin-top: 20px;
+    }
+    .metric-glass-card {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-glass);
+      border-radius: 16px;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .metric-glass-card h3 {
+      font-family: var(--font-cinzel);
+      font-size: 2.2rem;
+      color: var(--text-primary);
+    }
+    .metric-glass-card p {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-secondary);
+      margin-top: 6px;
+    }
+    .metric-glass-card svg {
+      width: 28px;
+      height: 28px;
+      fill: none;
+      stroke: var(--text-primary);
+    }
+
+    /* ==========================================================================
+       06. ELUSIVE RUNAWAY THERMAL CAKE SHAFTS
+       ========================================================================== */
+    .generic-display-viewport {
+      padding: 80px 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-header-block {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .section-header-block h2 {
+      font-family: var(--font-cinzel);
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      margin-top: 6px;
+    }
+    .section-header-block p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-top: 8px;
+    }
+
+    .cake-simulation-dock {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
+    .glass-morph-cake {
+      width: 180px;
+      height: 120px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+    }
+    .cake-tier-alpha {
+      width: 100%;
+      height: 50px;
+      background: linear-gradient(to top, var(--bg-glass), var(--bg-elevated));
+      border: 1px solid var(--border-glass);
+      border-radius: 12px;
+      position: relative;
+      z-index: 2;
+    }
+    .cake-tier-beta {
+      width: 80%;
+      height: 40px;
+      background: linear-gradient(to top, var(--bg-glass), var(--bg-elevated));
+      border: 1px solid var(--border-glass);
+      border-radius: 10px 10px 0 0;
+      position: relative;
+      z-index: 3;
+    }
+    .candle-stick {
+      width: 6px;
+      height: 30px;
+      background: linear-gradient(to right, #ffffff, var(--text-secondary));
+      position: absolute;
+      top: 6px;
+      z-index: 4;
+      border-radius: 3px;
+    }
+    .plasma-flame-node {
+      width: 14px;
+      height: 22px;
+      background: radial-gradient(ellipse at bottom, #ffffff 10%, #ffb703 40%, #fb8500 100%);
+      border-radius: 50% 50% 20% 20%;
+      position: absolute;
+      top: -24px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 15px #fb8500;
+    }
+    .plasma-flame-node.ignited {
+      animation: candleFlicker 0.1s infinite alternate ease-in-out;
+    }
+    .plasma-flame-node.extinguished {
+      display: none !important;
+    }
+    @keyframes candleFlicker {
+      0% { transform: translateX(-50% ) scale(1) rotate(-1deg); }
+      100% { transform: translateX(-50%) scale(1.08) rotate(1deg); }
+    }
+
+    .elusive-button-box {
+      position: relative;
+      width: 100%;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .action-matrix-btn {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-glass);
+      padding: 14px 32px;
+      border-radius: 30px;
+      color: var(--text-primary);
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      outline: none;
+      position: absolute;
+      will-change: left, top, transform;
+      transition: transform 0.2s, background-color 0.3s;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    }
+
+    /* ==========================================================================
+       07. SECURITY LAYOUT SHIELD & LOCKED BOX CHAMBER
+       ========================================================================== */
+    .security-lock-panel {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-glass);
+      border-radius: 24px;
+      padding: 36px 20px;
+      text-align: center;
+      max-width: 520px;
+      margin: 40px auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    .security-lock-panel svg {
+      width: 44px;
+      height: 44px;
+      stroke: var(--text-secondary);
+      fill: none;
+    }
+
+    .grand-gift-hypercube-box {
+      margin: 50px auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .box-hidden {
+      display: none !important;
+    }
+    .hypercube-mesh-node {
+      width: 110px;
+      height: 110px;
+      position: relative;
+      perspective: 400px;
+    }
+    .cube-skeleton {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      transform-style: preserve-3d;
+      animation: spinHypercube 6s infinite linear;
+    }
+    @keyframes spinHypercube {
+      0% { transform: rotateX(0deg) rotateY(0deg); }
+      100% { transform: rotateX(360deg) rotateY(360deg); }
+    }
+    .cube-side {
+      position: absolute;
+      width: 110px;
+      height: 110px;
+      background: rgba(139, 38, 57, 0.2);
+      border: 1.5px solid var(--border-active);
+    }
+    .side-front  { transform: rotateY(0deg) translateZ(55px); }
+    .side-back   { transform: rotateY(180deg) translateZ(55px); }
+    .side-left   { transform: rotateY(-90deg) translateZ(55px); }
+    .side-right  { transform: rotateY(90deg) translateZ(55px); }
+    .side-top    { transform: rotateX(90deg) translateZ(55px); }
+    .side-bottom { transform: rotateX(-90deg) translateZ(55px); }
+
+    .hypercube-caption {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+
+    /* ==========================================================================
+       08. CONSTELLATION PHOTO REVEAL VAULT GRID
+       ========================================================================== */
+    .photo-constellation-vault {
+      width: 100%;
+      display: none;
+      margin-top: 40px;
+    }
+    .vault-active {
+      display: block !important;
+    }
+    .photo-grid-mesh {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .photo-glass-frame {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-glass);
+      border-radius: 20px;
+      padding: 16px;
+      aspect-ratio: 4/5;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      position: relative;
+      overflow: hidden;
+    }
+    .fallback-vector-illustration {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.3);
+      z-index: 1;
+    }
+    .fallback-vector-illustration svg {
+      width: 44px;
+      height: 44px;
+      stroke: var(--border-glass);
+      fill: none;
+    }
+    .photo-glass-frame img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 2;
+    }
+    .frame-vector-tag {
+      position: relative;
+      z-index: 3;
+      background: rgba(0,0,0,0.7);
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border: 1px solid var(--border-glass);
+    }
+
+    /* CINEMATIC TYPEWRITER TRANSMISSION SHEET */
+    .cinematic-transmission-sheet {
+      width: 100%;
+      margin-top: 60px;
+      display: none;
+    }
+    .transmission-active {
+      display: block !important;
+    }
+    .parchment-glass-node {
+      background: var(--bg-glass);
+      border: 1px solid var(--border-glass);
+      border-radius: 28px;
+      padding: clamp(20px, 5vw, 44px);
+      position: relative;
+    }
+    .internal-filigree-rim {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      border: 1px solid var(--border-glass);
+      border-radius: 20px;
+      pointer-events: none;
+    }
+    .text-scroller-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .salutation-node {
+      font-family: var(--font-cinzel);
+      font-size: 1.4rem;
+    }
+    .paragraph-stream-node {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      font-weight: 300;
+      text-align: justify;
+    }
+    .valediction-signature-block {
+      margin-top: 16px;
+    }
+    .signature-title {
+      font-family: var(--font-cinzel);
+      font-size: 1.25rem;
+      margin-top: 6px;
+    }
+
+    /* SCROLL APPEARANCE INTERSECTIONS */
+    .reveal-node {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+    .reveal-node.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .master-app-footer {
+      padding: 40px 20px;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--border-glass);
+      margin-top: 60px;
+    }
+
+    /* RESPONSIVE SCALING LAYOUT RECONFIGURATIONS */
+    @media (max-width: 768px) {
+      body { cursor: default !important; }
+      #live-heart-pointer-node { display: none !important; }
+      .metrics-sync-grid { grid-template-columns: 1fr; }
+      .generic-display-viewport { padding: 40px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="ambient-background-matrix"></div>
+
+  <div id="live-heart-pointer-node">
+    <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+  </div>
+
+  <div id="global-toaster" class="toast-hidden" role="alert"></div>
+
+  <button id="shield-theme-calibrator" aria-label="Calibrate Safety Shield Mode">
+    <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    <span id="theme-indicator-label">Maroon Butterfly Matrix</span>
+  </button>
+
+  <div id="butterfly-containment-orbit-zone"></div>
+
+  <div id="scrolling-viewport-matrix">
+
+    <header class="hero-chassis-viewport">
+      <div class="fluid-layout-frame">
+        <div class="status-pill-capsule reveal-node visible">
+          <span class="status-indicator-dot"></span>
+          <p>Daughter-Mom Link Core: Secure</p>
+        </div>
+        <h1 class="main-cinematic-title reveal-node visible">
+          The Digital Cosmos Built For <br><span class="gradient-text-span">My Favorite Person</span>
+        </h1>
+        <p class="main-cinematic-desc reveal-node visible">
+          Warning: This environment stores high density of love, shared laugh indexes, and protective data packets mapped to prevent eye strain. Turn on the safety shield below anytime!
+        </p>
+
+        <div class="metrics-sync-grid reveal-node visible">
+          <div class="metric-glass-card">
+            <h3 id="ticker-years">0</h3>
+            <p>Years of Protecting Me</p>
+          </div>
+          <div class="metric-glass-card">
+            <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M4.5 12c0-2.485 2.015-4.5 4.5-4.5 1.545 0 2.91.777 3.73 1.96L12 11l.77-.54C13.59 9.277 14.955 8.5 16.5 8.5c2.485 0 4.5 2.015 4.5 4.5s-2.015 4.5-4.5 4.5c-1.545 0-2.91-.777-3.73-1.96L12 13l-.77.54C10.41 14.723 9.045 15.5 7.5 15.5c-2.485 0-4.5-2.015-4.5-4.5z"/></svg>
+            <p>Infinite Grace Supply</p>
+          </div>
+          <div class="metric-glass-card">
+            <h3 style="font-family: var(--font-inter);" id="butterfly-tally-readout">0/3</h3>
+            <p>Escaped Targets Secured</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="generic-display-viewport reveal-node">
+      <div class="section-header-block">
+        <h2 id="interactive-cake-title">Extinguish the Matrix Core</h2>
+        <p>Catch the button below to extinguish the thermal candle engine and broadcast a global blessing into the matrix cloud.</p>
+      </div>
+      <div class="cake-simulation-dock">
+        <div class="glass-morph-cake">
+          <div class="cake-tier-alpha"></div>
+          <div class="cake-tier-beta"></div>
+          <div class="candle-stick">
+            <div class="plasma-flame-node ignited" id="primary-candle-flame"></div>
+          </div>
+        </div>
+        <div class="elusive-button-box" id="elusive-btn-enclosure">
+          <button id="runaway-action-trigger" class="action-matrix-btn">Blow the Candle</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="generic-display-viewport reveal-node">
+      <div class="section-header-block">
+        <h2>The Central Gift Chamber</h2>
+      </div>
+
+      <div class="security-lock-panel" id="timeline-security-shield-card">
+        <svg viewBox="0 0 24 24" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <p id="lock-panel-text-status">Catch those butterflies(hint: just tap on them!)</p>
+      </div>
+
+      <div class="grand-gift-hypercube-box box-hidden" id="gift-box-activation-deck">
+        <div class="hypercube-mesh-node" id="interactive-hypercube-box-clicker" role="button" aria-label="Open Gift Artifact">
+          <div class="cube-skeleton">
+            <div class="cube-side side-front"></div>
+            <div class="cube-side side-back"></div>
+            <div class="cube-side side-left"></div>
+            <div class="cube-side side-right"></div>
+            <div class="cube-side side-top"></div>
+            <div class="cube-side side-bottom"></div>
+          </div>
+        </div>
+        <p class="hypercube-caption">Tap the floating box to open your memory file</p>
+      </div>
+
+      <div class="photo-constellation-vault" id="unveiled-gallery-matrix">
+        <div class="photo-grid-mesh">
+          <div class="photo-glass-frame">
+            <div class="fallback-vector-illustration">
+
+              <svg viewBox="0 0 24 24" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <img src="./image4.png" alt="" height="100">
+            </div>
+            <div class="frame-vector-tag">Kutty Youu</div>
+          </div>
+          <div class="photo-glass-frame">
+            <div class="fallback-vector-illustration">
+              <svg viewBox="0 0 24 24" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <img src="./image2.png" alt="" height="100">
+            </div>
+            <div class="frame-vector-tag">Cutiee</div>
+          </div>
+          <div class="photo-glass-frame">
+            <div class="fallback-vector-illustration">
+              <svg viewBox="0 0 24 24" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <img src="./image3.png" alt="" height="100">
+            </div>
+            <div class="frame-vector-tag">Last but not the least, our family pic!</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cinematic-transmission-sheet" id="unveiled-letter-matrix">
+        <article class="parchment-glass-node">
+          <div class="internal-filigree-rim"></div>
+          <div class="text-scroller-layout">
+            <h3 class="salutation-node" id="writer-node-1"></h3>
+            <p class="paragraph-stream-node" id="writer-node-2"></p>
+            <p class="paragraph-stream-node" id="writer-node-3"></p>
+            <p class="paragraph-stream-node" id="writer-node-4"></p>
+            <div class="valediction-signature-block">
+              <p style="font-size: 0.9rem; color: var(--text-secondary);">With infinite admiration and unconditional devotion,</p>
+              <h4 class="signature-title">Your Loving Daughter 🌹</h4>
+            </div>
+          </div>
+        </article>
+      </div>
+
+    </section>
+
+    <footer class="master-app-footer">
+      <p>&copy; 2026. Made with love for Amma.</p>
+    </footer>
+
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      
+      const appState = {
+        theme: "dark",
+        capturedCount: 0,
+        requiredCount: 3,
+        isCandleLit: true,
+        evadeCounter: 0,
+        funnyQuotes: {
+          light: [
+            "Shields Engaged! Ink Blue Eye-Protection active to shield your beautiful eyes, Mom! 💙",
+            "Too bright? System adjusted. Vision safe matrix running perfectly! 🛡️",
+            "Eye Protection Mode loaded. Love shouldn't place strain on your eyes!"
+          ],
+          dark: [
+            "Returning to Regal Maroon Matrix. Loading glowing butterfly coordinates! 🦋",
+            "Cozy dark mode universe restored. Back to late-night secure scrolling!",
+            "Dark mode initialized. Daughter's custom technical support division online!"
+          ]
+        }
+      };
+
+      // TOASTER NOTIFICATION MANAGER
+      const toasterNode = document.getElementById("global-toaster");
+      function executeToast(msg) {
+        toasterNode.textContent = msg;
+        toasterNode.classList.remove("toast-hidden");
+        clearTimeout(toasterNode.dismissTimeout);
+        toasterNode.dismissTimeout = setTimeout(() => {
+          toasterNode.classList.add("toast-hidden");
+        }, 4000);
+      }
+
+      // CORE AMBIENT BACKDROP PARTICLES SPARK ENGINES
+      const particleContainer = document.getElementById("ambient-background-matrix");
+      
+      function renderAmbientBackdropElements() {
+        particleContainer.innerHTML = "";
+        const density = 20;
+        
+        for (let i = 0; i < density; i++) {
+          const spark = document.createElement("div");
+          spark.className = "ambient-particle";
+          
+          // Inject custom vectors depending on dark/light status flags
+          if (appState.theme === "dark") {
+            // Butterfly Shape Vector Node
+            spark.innerHTML = `
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="1.5">
+                <path d="M12 2c-.5 4-4 6-6 6s-4-2-4-4 2-2 4-2 4 2 6 2zm0 0c.5 4 4 6 6 6s4-2 4-4-2-2-4-2-4 2-6 2z"/>
+                <path d="M12 22c-.5-4-4-5-6-5s-4 1-4 3 2 2 4 2 4-2 6-2zm0 0c.5-4 4-5 6-5s4 1 4 3-2 2-4 2-4-2-6-2z"/>
+              </svg>
+            `;
+          } else {
+            // Heart Shape Vector Node
+            spark.innerHTML = `
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--text-secondary)">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            `;
+          }
+          
+          spark.style.left = `${Math.random() * 100}vw`;
+          spark.style.animationDelay = `${Math.random() * 6}s`;
+          spark.style.animationDuration = `${Math.random() * 5 + 6}s`;
+          particleContainer.appendChild(spark);
+        }
+      }
+      renderAmbientBackdropElements();
+
+      // THEME EYE PROTECTION SWITCH CONTROL CAPSULE
+      const shieldToggler = document.getElementById("shield-theme-calibrator");
+      const labelIndicator = document.getElementById("theme-indicator-label");
+      
+      shieldToggler.addEventListener("click", () => {
+        const rootAttr = document.documentElement.getAttribute("data-theme");
+        const nextTheme = rootAttr === "dark" ? "light" : "dark";
+        
+        document.documentElement.setAttribute("data-theme", nextTheme);
+        appState.theme = nextTheme;
+        
+        labelIndicator.textContent = appState.theme === "dark" ? "Maroon Butterfly Matrix" : "Ink Blue Heart Shield";
+        
+        const stringBucket = appState.funnyQuotes[nextTheme];
+        executeToast(stringBucket[Math.floor(Math.random() * stringBucket.length)]);
+        
+        renderAmbientBackdropElements();
+      });
+
+      // MOUSE COORDINATE POINTER COMPONENT WRAPPERS
+      const primaryHeartCursor = document.getElementById("live-heart-pointer-node");
+      
+      window.addEventListener("mousemove", (event) => {
+        primaryHeartCursor.style.left = `${event.clientX}px`;
+        primaryHeartCursor.style.top = `${event.clientY}px`;
+        
+        if (Math.random() < 0.14) {
+          dropCursorTrailNode(event.clientX, event.clientY);
+        }
+      });
+
+      function dropCursorTrailNode(mx, my) {
+        const drop = document.createElement("div");
+        drop.className = "trail-drop-node";
+        drop.style.left = `${mx}px`;
+        drop.style.top = `${my}px`;
+        drop.innerHTML = `<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`;
+        
+        document.body.appendChild(drop);
+        
+        const angle = Math.random() * Math.PI * 2;
+        const drift = Math.random() * 35 + 15;
+        
+        const motion = drop.animate([
+          { transform: 'translate(-50%, -50%) scale(1)', opacity: 0.8 },
+          { transform: `translate(calc(-50% + ${Math.cos(angle)*drift}px), calc(-50% + ${Math.sin(angle)*drift}px)) scale(0)`, opacity: 0 }
+        ], { duration: 600, easing: 'ease-out' });
+        
+        motion.onfinish = () => drop.remove();
+      }
+
+      // ERRATIC FLYING BUTTERFLIES LOGIC
+      const dynamicContainmentField = document.getElementById("butterfly-containment-orbit-zone");
+      const tallyText = document.getElementById("butterfly-tally-readout");
+      const securityLockCard = document.getElementById("timeline-security-shield-card");
+      const hypercubeGiftBox = document.getElementById("gift-box-activation-deck");
+
+      function produceQuantumButterflyTargets() {
+        for (let idx = 0; idx < appState.requiredCount; idx++) {
+          const el = document.createElement("div");
+          el.className = "quantum-butterfly-node";
+          el.innerHTML = `
+            <svg class="butterfly-vector-mesh" viewBox="0 0 44 44">
+              <path class="wing-left" fill="var(--text-secondary)" d="M22 22C18 10 4 12 4 17s10 13 18 5z"/>
+              <path class="wing-right" fill="var(--text-secondary)" d="M22 22C26 10 40 12 40 17s-10 13-18 5z"/>
+              <rect x="21" y="10" width="2" height="24" rx="1" fill="var(--text-primary)"/>
+            </svg>
+          `;
+          dynamicContainmentField.appendChild(el);
+
+          // Vector structural motion bounds initialization
+          let curX = Math.random() * (window.innerWidth - 60);
+          let curY = Math.random() * (window.innerHeight - 60);
+          let destX = curX;
+          let destY = curY;
+          let pace = Math.random() * 2.5 + 1.5;
+
+          function runContinuousFlightMath() {
+            if (el.getAttribute("data-captured") === "true") return;
+
+            if (Math.hypot(destX - curX, destY - curY) < 30) {
+              destX = Math.random() * (window.innerWidth - 60);
+              destY = Math.random() * (window.innerHeight - 60);
+              pace = Math.random() * 2.5 + 1.5;
+            }
+
+            curX += (destX - curX) * (0.006 * pace);
+            curY += (destY - curY) * (0.006 * pace);
+
+            el.style.left = `${curX}px`;
+            el.style.top = `${curY}px`;
+
+            requestAnimationFrame(runContinuousFlightMath);
+          }
+          requestAnimationFrame(runContinuousFlightMath);
+
+          // Intercept / Capture Tracking Listener
+          const triggerCapture = (event) => {
+            event.stopPropagation();
+            if (el.getAttribute("data-captured") === "true") return;
+
+            el.setAttribute("data-captured", "true");
+            appState.capturedCount++;
+            tallyText.textContent = `${appState.capturedCount}/3`;
+
+            // Snap vector flight coordinates into the central safe storage lock element card
+            const matrixBounds = securityLockCard.getBoundingClientRect();
+            el.style.transition = "all 0.8s cubic-bezier(0.6, -0.28, 0.735, 0.045)";
+            el.style.left = `${matrixBounds.left + matrixBounds.width/2 - 22}px`;
+            el.style.top = `${window.scrollY + matrixBounds.top + matrixBounds.height/2 - 22}px`;
+            el.style.transform = "scale(0.05) rotate(540deg)";
+            el.style.opacity = "0.2";
+
+            executeToast(`Target ${appState.capturedCount} stored securely inside the primary chamber!`);
+
+            setTimeout(() => el.remove(), 850);
+
+            if (appState.capturedCount >= appState.requiredCount) {
+              disarmSecurityMatrixShield();
+            }
+          };
+
+          el.addEventListener("click", triggerCapture);
+          el.addEventListener("touchstart", triggerCapture, { passive: true });
+        }
+      }
+      produceQuantumButterflyTargets();
+
+      function disarmSecurityMatrixShield() {
+        setTimeout(() => {
+          securityLockCard.style.transform = "scale(0.9)";
+          securityLockCard.style.opacity = "0";
+          setTimeout(() => {
+            securityLockCard.remove();
+            hypercubeGiftBox.classList.remove("box-hidden");
+            executeToast("Timeline Security cleared! The primary Box Core has manifested.");
+          }, 500);
+        }, 1000);
+      }
+
+      // PLAYFUL RUNAWAY BLOW CANDLE SUBMIT TRIGGER
+      const runawayBtn = document.getElementById("runaway-action-trigger");
+      const candleFlame = document.getElementById("primary-candle-flame");
+      const interactiveTitle = document.getElementById("interactive-cake-title");
+
+      const displaceButtonVector = (event) => {
+        if (!appState.isCandleLit) return;
+
+        if (appState.evadeCounter < 4) {
+          event.preventDefault();
+          const boundaryBox = document.getElementById("elusive-btn-enclosure");
+          
+          const maxDeltaW = (boundaryBox.clientWidth - runawayBtn.clientWidth) / 2;
+          const maxDeltaH = (boundaryBox.clientHeight - runawayBtn.clientHeight) / 2;
+
+          const randomCoordinateX = (Math.random() * maxDeltaW * 2) - maxDeltaW;
+          const randomCoordinateY = (Math.random() * maxDeltaH * 2) - maxDeltaH;
+
+          runawayBtn.style.transform = `translate(${randomCoordinateX}px, ${randomCoordinateY}px)`;
+          appState.evadeCounter++;
+
+          if (appState.evadeCounter === 2) {
+            executeToast("Trying to click it?Catch me first, Mommy! 😂");
+          }
+        } else {
+          extinguishPrimaryFlame();
+        }
+      };
+
+      runawayBtn.addEventListener("mouseenter", displaceButtonVector);
+      runawayBtn.addEventListener("touchstart", displaceButtonVector, { passive: false });
+      runawayBtn.addEventListener("click", () => {
+        if (appState.evadeCounter >= 4) {
+          extinguishPrimaryFlame();
+        }
+      });
+
+      function extinguishPrimaryFlame() {
+        if (!appState.isCandleLit) return;
+        appState.isCandleLit = false;
+
+        candleFlame.className = "plasma-flame-node extinguished";
+        runawayBtn.style.transform = "translate(0, 0)";
+        runawayBtn.disabled = true;
+        runawayBtn.textContent = "Engine Cold";
+        interactiveTitle.textContent = "Core Extinguished!";
+        
+        executeToast("Hey Kamatchiii pirandhanaal Vazhthukal ❤️");
+      }
+
+      // BOX ARTIFACT CLICK BREAKDOWN & TIMELINE EXPANSION
+      const clickBox = document.getElementById("interactive-hypercube-box-clicker");
+      const targetGallery = document.getElementById("unveiled-gallery-matrix");
+      const targetLetter = document.getElementById("unveiled-letter-matrix");
+
+      clickBox.addEventListener("click", () => {
+        hypercubeGiftBox.style.transform = "scale(0.5)";
+        hypercubeGiftBox.style.opacity = "0";
+
+        setTimeout(() => {
+          hypercubeGiftBox.remove();
+          targetGallery.classList.add("vault-active");
+          targetLetter.classList.add("transmission-active");
+          
+          executeToast("Gallery Matrix Unlocked. Decrypting structural transmission data streams...");
+          runCinematicTypewriterSystem();
+        }, 500);
+      });
+
+      // MULTI-NODE CINEMATIC TYPEWRITER TRANSMISSION SYSTEM
+      const transmissionPayload = [
+        { blockId: "writer-node-1", content: "Dearest Amma," },
+        { blockId: "writer-node-2", content: "Today, 14.06.2026 will be special day for us, the beautiful queen of our house has born on that day! Rajamatha" },
+        { blockId: "writer-node-3", content: "I Loveeeeeeeeeeeeeeeeeeeeee Youuuuuuuuuuuuuuuuuuuuuuuuuu Priyuuuuu!!" },
+        { blockId: "writer-node-4", content: "No matter what i will always support you in everything u do (including sanda with nana). May this solar loop bring uncompromised health metrics and infinite happiness! Happy Birthdayyy!" }
+      ];
+
+      function runCinematicTypewriterSystem() {
+        let textNodePointer = 0;
+
+        function processNextBlockText() {
+          if (textNodePointer >= transmissionPayload.length) return;
+
+          const activePayload = transmissionPayload[textNodePointer];
+          const targetDOMElement = document.getElementById(activePayload.blockId);
+          const fullString = activePayload.content;
+          let characterIndex = 0;
+
+          targetDOMElement.textContent = "";
+
+          function appendCharacterLoop() {
+            if (characterIndex < fullString.length) {
+              targetDOMElement.textContent += fullString.charAt(characterIndex);
+              characterIndex++;
+              setTimeout(appendCharacterLoop, 20); // High-speed micro typing loop
+            } else {
+              textNodePointer++;
+              setTimeout(processNextBlockText, 300);
+            }
+          }
+          appendCharacterLoop();
+        }
+        processNextBlockText();
+      }
+
+      // SCROLL VIEWPORT INTERSECTION REVEAL APPARATUS
+      const dynamicObservedElements = document.querySelectorAll(".reveal-node");
+      const scrollObserverEngine = new IntersectionObserver((entries) => {
+        entries.forEach((item) => {
+          if (item.isIntersecting) {
+            item.target.classList.add("visible");
+          }
+        });
+      }, { threshold: 0.1 });
+      dynamicObservedElements.forEach((node) => scrollObserverEngine.observe(node));
+
+      // HERO SECTION YEARS TICKER LIFTER
+      const numericTickerNode = document.getElementById("ticker-years");
+      let currentMilestoneMax = 22; // Adjust target age tracker configuration profiles here
+      let currentTickerValue = 0;
+
+      function triggerDashboardTickerCount() {
+        if (currentTickerValue < currentMilestoneMax) {
+          currentTickerValue++;
+          numericTickerNode.textContent = currentTickerValue;
+          setTimeout(triggerDashboardTickerCount, 50);
+        }
+      }
+      setTimeout(triggerDashboardTickerCount, 600);
+
+      // Welcome Payload Boot Notification
+      executeToast("System Online: Capture all 3 escaped targets to crack the core timeline box!");
+    });
+  </script>
+</body>
+</html>
